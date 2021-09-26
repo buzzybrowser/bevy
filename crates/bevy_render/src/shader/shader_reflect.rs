@@ -1,7 +1,7 @@
 use crate::{
     pipeline::{
-        BindGroupDescriptor, BindType, BindingDescriptor, BindingShaderStage, InputStepMode,
-        UniformProperty, VertexAttribute, VertexBufferLayout, VertexFormat,
+        BindGroupDescriptor, BindType, BindingDescriptor, BindingShaderStage, UniformProperty,
+        VertexAttribute, VertexBufferLayout, VertexFormat, VertexStepMode,
     },
     shader::{ShaderLayout, GL_FRONT_FACING, GL_INSTANCE_INDEX, GL_VERTEX_INDEX},
     texture::{TextureSampleType, TextureViewDimension},
@@ -72,9 +72,9 @@ impl ShaderLayout {
                         attributes: vec![vertex_attribute],
                         name: current_buffer_name.into(),
                         step_mode: if instance {
-                            InputStepMode::Instance
+                            VertexStepMode::Instance
                         } else {
-                            InputStepMode::Vertex
+                            VertexStepMode::Vertex
                         },
                         stride: 0,
                     });
@@ -359,7 +359,7 @@ mod tests {
                             offset: 0,
                             shader_location: 0,
                         },
-                        InputStepMode::Vertex
+                        VertexStepMode::Vertex
                     )
                     .test_zero_stride(),
                     VertexBufferLayout::new_from_attribute(
@@ -369,7 +369,7 @@ mod tests {
                             offset: 0,
                             shader_location: 1,
                         },
-                        InputStepMode::Vertex
+                        VertexStepMode::Vertex
                     )
                     .test_zero_stride(),
                     VertexBufferLayout::new_from_attribute(
@@ -379,7 +379,7 @@ mod tests {
                             offset: 0,
                             shader_location: 2,
                         },
-                        InputStepMode::Instance
+                        VertexStepMode::Instance
                     )
                     .test_zero_stride(),
                 ],

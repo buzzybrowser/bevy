@@ -206,11 +206,11 @@ impl WgpuRenderResourceContext {
                 let shader_stage = if binding.shader_stage
                     == BindingShaderStage::VERTEX | BindingShaderStage::FRAGMENT
                 {
-                    wgpu::ShaderStage::VERTEX | wgpu::ShaderStage::FRAGMENT
+                    wgpu::ShaderStages::VERTEX | wgpu::ShaderStages::FRAGMENT
                 } else if binding.shader_stage == BindingShaderStage::VERTEX {
-                    wgpu::ShaderStage::VERTEX
+                    wgpu::ShaderStages::VERTEX
                 } else if binding.shader_stage == BindingShaderStage::FRAGMENT {
-                    wgpu::ShaderStage::FRAGMENT
+                    wgpu::ShaderStages::FRAGMENT
                 } else {
                     panic!("Invalid binding shader stage.")
                 };
@@ -362,13 +362,15 @@ impl RenderResourceContext for WgpuRenderResourceContext {
         let surfaces = self.resources.window_surfaces.read();
         let mut window_swap_chains = self.resources.window_swap_chains.write();
 
-        let swap_chain_descriptor: wgpu::SwapChainDescriptor = window.wgpu_into();
+        // FIXME: Don't know what should be done here. The create_swap_chain method
+        //        no longer exists.
+        let surface_configuration: wgpu::SurfaceConfiguration = window.wgpu_into();
         let surface = surfaces
             .get(&window.id())
             .expect("No surface found for window.");
         let swap_chain = self
             .device
-            .create_swap_chain(surface, &swap_chain_descriptor);
+            .create_swap_chain(surface, &surface_configuration);
 
         window_swap_chains.insert(window.id(), swap_chain);
     }

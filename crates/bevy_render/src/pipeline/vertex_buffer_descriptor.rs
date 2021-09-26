@@ -11,14 +11,14 @@ use std::{
 pub struct VertexBufferLayout {
     pub name: Cow<'static, str>,
     pub stride: u64,
-    pub step_mode: InputStepMode,
+    pub step_mode: VertexStepMode,
     pub attributes: Vec<VertexAttribute>,
 }
 
 impl VertexBufferLayout {
     pub fn new_from_attribute(
         attribute: VertexAttribute,
-        step_mode: InputStepMode,
+        step_mode: VertexStepMode,
     ) -> VertexBufferLayout {
         VertexBufferLayout {
             name: attribute.name.clone(),
@@ -29,14 +29,14 @@ impl VertexBufferLayout {
     }
 }
 #[derive(Copy, Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
-pub enum InputStepMode {
+pub enum VertexStepMode {
     Vertex = 0,
     Instance = 1,
 }
 
-impl Default for InputStepMode {
+impl Default for VertexStepMode {
     fn default() -> Self {
-        InputStepMode::Vertex
+        VertexStepMode::Vertex
     }
 }
 

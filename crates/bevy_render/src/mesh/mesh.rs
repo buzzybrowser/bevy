@@ -19,7 +19,7 @@ use bevy_reflect::TypeUuid;
 use bevy_utils::EnumVariantMeta;
 use std::{borrow::Cow, collections::BTreeMap};
 
-use crate::pipeline::{InputStepMode, VertexAttribute, VertexBufferLayout};
+use crate::pipeline::{VertexAttribute, VertexBufferLayout, VertexStepMode};
 use bevy_utils::{HashMap, HashSet};
 
 pub const INDEX_BUFFER_ASSET_INDEX: u64 = 0;
@@ -345,7 +345,7 @@ impl Mesh {
         VertexBufferLayout {
             name: Default::default(),
             stride: accumulated_offset,
-            step_mode: InputStepMode::Vertex,
+            step_mode: VertexStepMode::Vertex,
             attributes,
         }
     }

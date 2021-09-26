@@ -5,9 +5,9 @@ use bevy_render::{
     pipeline::{
         BindType, BlendFactor, BlendOperation, BlendState, ColorTargetState, ColorWrite,
         CompareFunction, DepthBiasState, DepthStencilState, Face, FrontFace, IndexFormat,
-        InputStepMode, MultisampleState, PolygonMode, PrimitiveState, PrimitiveTopology,
-        StencilFaceState, StencilOperation, StencilState, VertexAttribute, VertexBufferLayout,
-        VertexFormat,
+        MultisampleState, PolygonMode, PrimitiveState, PrimitiveTopology, StencilFaceState,
+        StencilOperation, StencilState, VertexAttribute, VertexBufferLayout, VertexFormat,
+        VertexStepMode,
     },
     renderer::BufferUsage,
     texture::{
@@ -83,11 +83,11 @@ impl WgpuFrom<&VertexAttribute> for wgpu::VertexAttribute {
     }
 }
 
-impl WgpuFrom<InputStepMode> for wgpu::InputStepMode {
-    fn from(val: InputStepMode) -> Self {
+impl WgpuFrom<VertexStepMode> for wgpu::VertexStepMode {
+    fn from(val: VertexStepMode) -> Self {
         match val {
-            InputStepMode::Vertex => wgpu::InputStepMode::Vertex,
-            InputStepMode::Instance => wgpu::InputStepMode::Instance,
+            VertexStepMode::Vertex => wgpu::VertexStepMode::Vertex,
+            VertexStepMode::Instance => wgpu::VertexStepMode::Instance,
         }
     }
 }
@@ -95,7 +95,7 @@ impl WgpuFrom<InputStepMode> for wgpu::InputStepMode {
 #[derive(Clone, Debug)]
 pub struct OwnedWgpuVertexBufferLayout {
     pub array_stride: wgpu::BufferAddress,
-    pub step_mode: wgpu::InputStepMode,
+    pub step_mode: wgpu::VertexStepMode,
     pub attributes: Vec<wgpu::VertexAttribute>,
 }
 
@@ -137,9 +137,9 @@ impl WgpuFrom<Color> for wgpu::Color {
     }
 }
 
-impl WgpuFrom<BufferUsage> for wgpu::BufferUsage {
+impl WgpuFrom<BufferUsage> for wgpu::BufferUsages {
     fn from(val: BufferUsage) -> Self {
-        wgpu::BufferUsage::from_bits(val.bits()).unwrap()
+        wgpu::BufferUsages::from_bits(val.bits()).unwrap()
     }
 }
 
@@ -346,9 +346,9 @@ impl WgpuFrom<TextureFormat> for wgpu::TextureFormat {
     }
 }
 
-impl WgpuFrom<TextureUsage> for wgpu::TextureUsage {
+impl WgpuFrom<TextureUsage> for wgpu::TextureUsages {
     fn from(val: TextureUsage) -> Self {
-        wgpu::TextureUsage::from_bits(val.bits()).unwrap()
+        wgpu::TextureUsages::from_bits(val.bits()).unwrap()
     }
 }
 
@@ -526,9 +526,9 @@ impl WgpuFrom<PrimitiveState> for wgpu::PrimitiveState {
     }
 }
 
-impl WgpuFrom<ColorWrite> for wgpu::ColorWrite {
+impl WgpuFrom<ColorWrite> for wgpu::ColorWrites {
     fn from(val: ColorWrite) -> Self {
-        wgpu::ColorWrite::from_bits(val.bits()).unwrap()
+        wgpu::ColorWrites::from_bits(val.bits()).unwrap()
     }
 }
 
@@ -640,10 +640,10 @@ impl WgpuFrom<SamplerBorderColor> for wgpu::SamplerBorderColor {
     }
 }
 
-impl WgpuFrom<&Window> for wgpu::SwapChainDescriptor {
+impl WgpuFrom<&Window> for wgpu::SurfaceConfiguration {
     fn from(window: &Window) -> Self {
-        wgpu::SwapChainDescriptor {
-            usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
+        wgpu::SurfaceConfiguration {
+            usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
             format: TextureFormat::default().wgpu_into(),
             width: window.physical_width().max(1),
             height: window.physical_height().max(1),
